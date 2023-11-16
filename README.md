@@ -1,5 +1,7 @@
 # Point-Pelanggaran-Siswa
+![myimage-alt-tag](https://github.com/ocikyamin/Point-Pelanggaran-Siswa-CI4/blob/main/pps.mticanduang.sch.id_admin_pelanggaran.png)
 Aplikasi Pencatatan Poin Pelanggaran Siswa adalah aplikasi berbasis website yang digunakan untuk mencatat pelanggaran siswa. Aplikasi ini dibuat dengan Codeigniter 4 dan MySQL sebagai database.
+
 
 Aplikasi ini memiliki fitur-fitur sebagai berikut:
 
