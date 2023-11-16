@@ -1,0 +1,26 @@
+{
+    "name": "PPS (Poin Pelanggaran Santri)",
+    "short_name": "PPS MTIC",
+    "start_url": "./",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#3f51b5",
+    "icons": [
+      {
+        "src": "./public/PWA/icon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "./public/PWA/icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "splash_screen": {
+      "name": "./public/PWA/splash-screen.png",
+      "sizes": "512x512",
+      "duration": 3000
+    }
+  }
+  

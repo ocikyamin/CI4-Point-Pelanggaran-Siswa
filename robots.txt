@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /teacher/
+Disallow: /auth/admin/
+Sitemap: https://pps.mticanduang.sch.id/sitemap.xml
