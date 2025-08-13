@@ -49,6 +49,4 @@ Untuk menggunakan aplikasi ini, Anda perlu melakukan langkah-langkah berikut:
 * Buka aplikasi di browser Anda.
 Kontak
 
-Jika Anda memiliki pertanyaan atau saran tentang aplikasi ini, Anda dapat menghubungi saya melalui email di [ocikyamin@gmail.com]
-
 Semoga bermanfaat!
