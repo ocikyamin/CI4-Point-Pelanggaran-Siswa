@@ -23,7 +23,7 @@
             <div class="card mb-0">
               <div class="card-body">
                 <a href="<?=base_url()?>" class="text-nowrap logo-img text-center d-block py-3 w-100">
-                  <img src="<?=base_url('public/')?>assets/images/logos/logo.png" width="180" alt="">
+                  <img src="<?=base_url('public/')?>assets/images/logos/brand.png" width="180" alt="">
                 </a>
                 <p class="text-center">MADRASAH TARBIYAH ISLAMIYAH (MTI) CANDUANG</p>
                 <form id="login-form" method="post">

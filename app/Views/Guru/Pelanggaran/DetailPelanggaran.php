@@ -1,9 +1,14 @@
-<?= $this->extend('Guru/Layouts') ?>
-<?= $this->section('content') ?>
-<div class="card p-0 shadow-sm">
-<div class="card-body">
-<h5 class="card-title fw-semibold mb-4"><i class="ti ti-user"></i> Informasi Siswa</h5>
-<div class="row">
+<!-- Modal -->
+<div class="modal fade" id="modal-info" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white">Informasi Pelanggaran</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h5><i class="ti ti-users"></i> Identitas Siswa</h5>
+      <div class="row">
     <div class="col-lg-6">
     <table class="table table-hover table-sm" style="text-transform: uppercase;font-size:12px">
         <tr>
@@ -45,16 +50,10 @@
         </tr>
         </table>
     </div>
-
-</div>
-
-
-</div>
-</div>
-<div class="row">
-<div class="col-lg-12">
-<h5 class="card-title fw-semibold mb-4 mt-3"><i class="ti ti-list-search"></i> Riwayat Pelanggaran</h5>
-<div class="table-responsive">
+    <p>
+        <h5><i class="ti ti-list"></i> Pencatatan Pelanggaran</h5>
+    </p>
+    <div class="table-responsive">
 <table class="table table-sm table-hover">
     <thead>
         <tr>
@@ -90,5 +89,13 @@
 </div>
 
 </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
-<?= $this->endSection() ?>
+
+
+

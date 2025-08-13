@@ -11,34 +11,13 @@
         <script type="text/javascript" src="<?=base_url('public/')?>assets/libs/toastify-js/toastify.js"></script>
         <link rel="stylesheet" type="text/css" href="<?=base_url('public/')?>assets/libs/sweetalert2/sweetalert2.min.css">
         <script type="text/javascript" src="<?=base_url('public/')?>assets/libs/sweetalert2/sweetalert2.min.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="<?=base_url('public/')?>assets/libs/DataTables/datatables.min.css">
+        <script type="text/javascript" src="<?=base_url('public/')?>assets/libs/DataTables/datatables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<?=base_url('public/')?>assets/css/guru.css">
         <style>
-    /* Custom scrollbar style */
-    ::-webkit-scrollbar {
-      /* width: 8px; */
-      height:8px;
     
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background-color: rgba(0, 0, 0, 0.3);
-      border-radius: 10px;
-
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background-color: rgba(0, 0, 0, 0.5);
-   
-    }
-
-    /* Custom table style */
-    .table-custom-scroll {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-    }
   </style>
-
 </head>
 
 <body>
@@ -49,7 +28,7 @@
     <aside class="left-sidebar">
       <!-- Sidebar scroll-->
       <div>
-        <div class="brand-logo d-flex bg-light align-items-center justify-content-between">
+        <div class="brand-logo d-flex bg-white align-items-center justify-content-between">
           <a href="<?=base_url('teacher')?>" class="text-nowrap logo-img">
             <img src="<?=base_url('public/')?>assets/images/logos/brand.png" width="180" alt="" />
           </a>
@@ -78,24 +57,33 @@
               <span class="hide-menu">MAIN MENU</span>
             </li>
             <?php if (TeacherLogin()->type=="walas"):?>
-              <li class="sidebar-item">
+              <!-- <li class="sidebar-item">
               <a class="sidebar-link" href="<?=base_url('teacher/student')?>" aria-expanded="false">
                 <span>
                   <i class="ti ti-users"></i>
                 </span>
                 <span class="hide-menu">Siswa</span>
               </a>
-            </li>
+            </li> -->
               <?php endif;?>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="<?=base_url('teacher/presensi')?>" aria-expanded="false">
+              <a class="sidebar-link" href="<?=base_url('teacher/jurnal')?>" aria-expanded="false">
                 <span>
                   <!-- <i class="ti ti-list-details"></i> -->
                   <i class="ti ti-checklist"></i>
                 </span>
-                <span class="hide-menu">Presensi</span>
+                <span class="hide-menu">Jurnal</span>
               </a>
             </li>
+            <!-- <li class="sidebar-item">
+              <a class="sidebar-link" href="<?=base_url('teacher/presensi')?>" aria-expanded="false">
+                <span>
+           
+                  <i class="ti ti-checklist"></i>
+                </span>
+                <span class="hide-menu">Presensi</span>
+              </a>
+            </li> -->
             <li class="sidebar-item">
               <a class="sidebar-link" href="<?=base_url('teacher/history')?>" aria-expanded="false">
                 <span>
@@ -104,16 +92,24 @@
                 <span class="hide-menu">Riwayat</span>
               </a>
             </li>
-            <li class="nav-small-cap">
+            <li class="nav-small-cap mt-2">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu">User</span>
+              <span class="hide-menu">Account</span>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="<?=base_url('teacher/walas')?>" aria-expanded="false">
+                <span>
+                <i class="ti ti-user"></i>
+                </span>
+                <span class="hide-menu">Walas</span>
+              </a>
             </li>
             <li class="sidebar-item">
               <a class="sidebar-link" href="<?=base_url('teacher/#')?>" aria-expanded="false">
                 <span>
                   <i class="ti ti-user-plus"></i>
                 </span>
-                <span class="hide-menu">Account</span>
+                <span class="hide-menu">Profil</span>
               </a>
             </li>
             <li class="sidebar-item">
@@ -147,8 +143,7 @@
     <!--  Main wrapper -->
     <div class="body-wrapper">
       <!--  Header Start -->
-       <!--  Header Start -->
-       <header class="app-header bg-light">
+       <header class="app-header">
         <nav class="navbar navbar-expand-lg navbar-light">
           <ul class="navbar-nav">
             <li class="nav-item d-block d-xl-none">
@@ -157,15 +152,17 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link nav-icon-hover" href="javascript:void(0)">
-                <i class="ti ti-bell-ringing"></i>
-                <div class="notification bg-primary rounded-circle"></div>
+              <a class="nav-link nav-icon-hover" href="<?=base_url('teacher/notif')?>">
+                <i class="ti ti-bell-ringing text-primary"></i>
+                <div class="notification bg-danger rounded-circle"></div>
               </a>
             </li>
           </ul>
           <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-              <a href="#" class="badge bg-primary rounded-3"><i class="ti ti-calendar-event"></i> <?=PeriodeAktif()->nm_periode?></a>
+              <a href="#" class="badge bg-primary rounded-3"><i class="ti ti-calendar-event"></i> <?php if (PeriodeAktif()) { echo PeriodeAktif()->nm_periode;
+                
+              } ?></a>
               <li class="nav-item dropdown">
                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
                   aria-expanded="false">

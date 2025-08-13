@@ -2,9 +2,10 @@
 namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\PelanggaranSiswaModel;
-use App\Models\KelasRombelWalasModel;
+use App\Models\KelasRombelModel;
 use App\Models\KelasMengajarModel;
 use App\Models\SiswaModel;
+use App\Models\Jurnal\AgendaModel;
 
 class Report extends BaseController
 {
@@ -16,7 +17,7 @@ class Report extends BaseController
 
     public function PelanggaranSiswaId($siswa_kelas_id)
     {
-        $mInfoKelas = new KelasRombelWalasModel;
+        $mInfoKelas = new KelasRombelModel;
         // DetailInfoRombelWalas($id)
         $mPelanggaran = new PelanggaranSiswaModel;
         // PelanggaranBySiswaKelasId
@@ -32,7 +33,7 @@ class Report extends BaseController
     {
 
         // $siswaRombelM = new SiswaModel;
-        $infoKelasM = new KelasRombelWalasModel;
+        $infoKelasM = new KelasRombelModel;
         $mPelanggaran = new PelanggaranSiswaModel;
 
         $data = [
@@ -43,22 +44,35 @@ class Report extends BaseController
         return view('Report/print_pelanggaran_kelas_id', $data);
     }
 
-    public function PresensiByKelasMengajar($kelas_mengajar_id)
+    public function PresensiByKelasMengajar($jadwal_id)
     {
-        $infoKelasM = new KelasRombelWalasModel;
+        $infoKelasM = new KelasRombelModel;
         $kelasM = new KelasMengajarModel;
         $siswaM = new SiswaModel;
-        $kelas = $kelasM->InfoKelasMengajar($kelas_mengajar_id);
-        $tanggal_pertemuan = StatusPertemuan($kelas_mengajar_id);
-        $data = [
-        'kelas'=> $kelas,
-        'siswa'=> $siswaM ->SiswaNamaRombelId($kelas->rombel_walas_id),
-        'jml'=> count($tanggal_pertemuan),
-        'tanggal_pertemuan'=> $tanggal_pertemuan,
-        'last'=> StatusPresensiToday($kelas->id),
-        'kelas_mengajar_id'=> $kelas_mengajar_id,
-        'walas'=> $infoKelasM->InfoRombelWalas($kelas->rombel_walas_id)
-        ];
+        $agendaM = new AgendaModel();
+        $kelas = $kelasM->InfoKelasMengajar($jadwal_id);
+
+        
+        // $data = [
+            // 'kelas'=> $kelas,
+            // 'siswa'=> $siswaM ->SiswaNamaRombelId($kelas->rombel_walas_id),
+            // 'jml'=> count($tanggal_pertemuan),
+            // 'tanggal_pertemuan'=> $tanggal_pertemuan,
+            // 'last'=> StatusPresensiToday($kelas->id),
+            // 'kelas_mengajar_id'=> $kelas_mengajar_id,
+            // 'walas'=> $infoKelasM->InfoRombel($kelas->rombel_walas_id)
+            // ];
+            
+            $data = [
+                'rombel_id'=> $kelas->rombel_walas_id,
+                'jadwal_id'=> $kelas->id,
+                'kelas'=> $infoKelasM->InfoRombel($kelas->rombel_walas_id),
+                'jadwal'=> $kelas,
+                'pertemuan'=> $agendaM->select('id,pertemuan,tgl_pertemuan')->where('kelas_mengajar_id', $kelas->id)->findAll(),
+                'siswa'=>$siswaM ->SiswaNamaRombelId($kelas->rombel_walas_id)
+            ];
+            
+            // dd($data);
        return view('Report/print_presensi_kelas_mengajar', $data);
     }
 }

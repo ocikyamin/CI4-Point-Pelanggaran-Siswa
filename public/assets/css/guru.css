@@ -1,0 +1,31 @@
+/* Custom scrollbar style */
+::-webkit-scrollbar {
+    /* width: 8px; */
+    height:8px;
+  
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+ 
+  }
+
+  /* Custom table style */
+  .table-custom-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  .mid tr th {
+      vertical-align: middle; 
+  }
+  .mid tr td {
+      vertical-align: middle; 
+  }

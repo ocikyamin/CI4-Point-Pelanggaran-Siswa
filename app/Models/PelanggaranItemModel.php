@@ -11,14 +11,23 @@ class PelanggaranItemModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
-    protected $protectFields    = true;
+    protected $protectFields    = false;
     protected $allowedFields    = [];
 
 
-    public function JenisPelanggaran()
+    public function JenisPelanggaran($id=null)
     {
+      if ($id) {
+         return $this->db->table('pelanggaran_jenis')->where('id',$id)->get()->getRow();
+      }
        return $this->db->table('pelanggaran_jenis')->get()->getResultArray();
     }
+   //  public function JenisPelanggaran()
+   //  {
+   //     return $this->db->table('pelanggaran_jenis')->get()->getResultArray();
+   //  }
+
+
 
     public function PelanggaranByJenis($jenis)
     {

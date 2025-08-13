@@ -15,11 +15,11 @@ class PelanggaranSiswaModel extends Model
     protected $allowedFields    = [];
 
     // Dates
-    protected $useTimestamps = true;
-    protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
+   //  protected $useTimestamps = true;
+   //  protected $dateFormat    = 'datetime';
+   //  protected $createdField  = 'created_at';
+   //  protected $updatedField  = 'updated_at';
+   //  protected $deletedField  = 'deleted_at';
 
 
    //  Pelanggran siswa by id 
@@ -32,25 +32,28 @@ class PelanggaranSiswaModel extends Model
        pelanggaran_item.nama_pelanggaran,
        pelanggaran_item.poin,
        pelanggaran_siswa.keterangan,
+       pelanggaran_siswa.keterangan_final,
+       pelanggaran_siswa.teruskan_ke,
        pelanggaran_siswa.status_tindak_lanjut,
-       pelanggaran_siswa.bukti_pelanggaran,
+       pelanggaran_siswa.lampiran,
        m_guru.nm_guru')
        ->join('pelanggaran_item','pelanggaran_siswa.pelanggaran_id=pelanggaran_item.id')
        ->join('m_guru','pelanggaran_siswa.user_created_id=m_guru.id')
-       ->join('periode','pelanggaran_siswa.periode_langgar_id=periode.id')
        ->where('pelanggaran_siswa.siswa_kelas_id', $siswa_kelas_id)
-       ->where('periode.status_periode', 1)
        ->get()
        ->getResultArray();
     }
 
 
    //  Pelanggran Berdasarkan Kelas 
-    public function PelanggaranByKelasId($rombel_walas_id)
+    public function PelanggaranByKelasId($periode=null, $semester=null,$rombel=null)
     {
-       return $this->db->table('pelanggaran_siswa')
+
+      if ($periode =="" && $semester=="" && $rombel !="") {
+         return $this->db->table('pelanggaran_siswa')
        ->select('
        pelanggaran_siswa.id,
+       pelanggaran_siswa.siswa_kelas_id,
        pelanggaran_siswa.tgl_kejadian,
        m_siswa.nisn,
        m_siswa.nama_siswa,
@@ -59,14 +62,45 @@ class PelanggaranSiswaModel extends Model
        pelanggaran_jenis.jenis,
        pelanggaran_siswa.keterangan,
        pelanggaran_siswa.status_tindak_lanjut,
-       pelanggaran_siswa.bukti_pelanggaran,
+       pelanggaran_siswa.keterangan_final,
+       pelanggaran_siswa.teruskan_ke,
+       pelanggaran_siswa.lampiran,
        m_guru.nm_guru')
        ->join('m_siswa_kelas','pelanggaran_siswa.siswa_kelas_id=m_siswa_kelas.id')
        ->join('m_siswa','m_siswa_kelas.siswa_id=m_siswa.id')
        ->join('pelanggaran_item','pelanggaran_siswa.pelanggaran_id=pelanggaran_item.id')
        ->join('pelanggaran_jenis','pelanggaran_item.jenis_id=pelanggaran_jenis.id')
        ->join('m_guru','pelanggaran_siswa.user_created_id=m_guru.id')
-       ->where('m_siswa_kelas.rombel_walas_id', $rombel_walas_id)
+       ->where('m_siswa_kelas.rombel_id', $rombel)
+      //  ->orderBy('pelanggaran_siswa.siswa_kelas_id', 'asc')
+       ->orderBy('pelanggaran_siswa.tgl_kejadian', 'asc')
+       ->get()
+       ->getResultArray();
+      }
+       return $this->db->table('pelanggaran_siswa')
+       ->select('
+       pelanggaran_siswa.id,
+       pelanggaran_siswa.siswa_kelas_id,
+       pelanggaran_siswa.tgl_kejadian,
+       m_siswa.nisn,
+       m_siswa.nama_siswa,
+       pelanggaran_item.nama_pelanggaran,
+       pelanggaran_item.poin,
+       pelanggaran_jenis.jenis,
+       pelanggaran_siswa.keterangan,
+       pelanggaran_siswa.status_tindak_lanjut,
+       pelanggaran_siswa.keterangan_final,
+       pelanggaran_siswa.teruskan_ke,
+       pelanggaran_siswa.lampiran,
+       m_guru.nm_guru')
+       ->join('m_siswa_kelas','pelanggaran_siswa.siswa_kelas_id=m_siswa_kelas.id')
+       ->join('m_siswa','m_siswa_kelas.siswa_id=m_siswa.id')
+       ->join('pelanggaran_item','pelanggaran_siswa.pelanggaran_id=pelanggaran_item.id')
+       ->join('pelanggaran_jenis','pelanggaran_item.jenis_id=pelanggaran_jenis.id')
+       ->join('m_guru','pelanggaran_siswa.user_created_id=m_guru.id')
+       ->where('pelanggaran_siswa.periode_langgar_id', $periode)
+       ->where('pelanggaran_siswa.semester_langgar_id', $semester)
+       ->where('m_siswa_kelas.rombel_id', $rombel)
       //  ->orderBy('pelanggaran_siswa.siswa_kelas_id', 'asc')
        ->orderBy('pelanggaran_siswa.tgl_kejadian', 'asc')
        ->get()
@@ -79,14 +113,22 @@ class PelanggaranSiswaModel extends Model
     {
        return $this->db->table('pelanggaran_siswa')
        ->select('
-       m_siswa.nisn,m_siswa.nama_siswa,
+       m_siswa.nisn,
+       m_siswa.nama_siswa,
        pelanggaran_siswa.id,
        pelanggaran_siswa.tgl_kejadian,
+       pelanggaran_siswa.status_tindak_lanjut,
+       pelanggaran_siswa.tgl_penyelesaian,
+       pelanggaran_siswa.keterangan,
+       pelanggaran_siswa.lampiran,
+       pelanggaran_jenis.jenis,
        pelanggaran_item.nama_pelanggaran,
-       pelanggaran_item.poin')
+       pelanggaran_item.poin
+       ')
        ->join('m_siswa_kelas','pelanggaran_siswa.siswa_kelas_id=m_siswa_kelas.id')
        ->join('m_siswa','m_siswa_kelas.siswa_id=m_siswa.id')
        ->join('pelanggaran_item','pelanggaran_siswa.pelanggaran_id=pelanggaran_item.id')
+       ->join('pelanggaran_jenis','pelanggaran_item.jenis_id=pelanggaran_jenis.id')
        ->join('m_guru','pelanggaran_siswa.user_created_id=m_guru.id')
        ->where('pelanggaran_siswa.user_created_id', $user_created_id)
        ->get()
@@ -95,24 +137,19 @@ class PelanggaranSiswaModel extends Model
 
 
    //  Jumlah Pelanggran perkelas 
-
-   public function JumlahSiswaMelanggarByKelasID($rombel_walas_id = null)
-{
-    if ($rombel_walas_id === null) {
-        return 0;
-    }
-    
-    return $this->db->table('pelanggaran_siswa')
-    ->select('COUNT(DISTINCT(pelanggaran_siswa.siswa_kelas_id)) as total') // Count distinct siswa_kelas_id
-    ->join('m_siswa_kelas', 'pelanggaran_siswa.siswa_kelas_id = m_siswa_kelas.id')
-    ->join('periode', 'pelanggaran_siswa.periode_langgar_id = periode.id')
-    ->where('periode.status_periode', 1)
-    ->where('m_siswa_kelas.rombel_walas_id', $rombel_walas_id)
-    ->get()
-    ->getRow()
-    ->total;
-}
-
+   public function JumlahSiswaMelanggarByKelasID($periode=null, $semester=null,$rombel=null)
+   {
+      return $this->db->table('pelanggaran_siswa')
+      ->selectCount('pelanggaran_siswa.siswa_kelas_id')
+      ->join('m_siswa_kelas','pelanggaran_siswa.siswa_kelas_id=m_siswa_kelas.id')
+      ->where('pelanggaran_siswa.periode_langgar_id', $periode)
+      ->where('pelanggaran_siswa.semester_langgar_id', $semester)
+      ->where('m_siswa_kelas.rombel_id', $rombel)
+      ->groupBy('pelanggaran_siswa.siswa_kelas_id')
+      // ->get()
+      ->countAllResults();
+   }
+  
 
    // Pelanggaran Terbaru 
    public function NewsPelanggaran()
@@ -124,12 +161,12 @@ class PelanggaranSiswaModel extends Model
       m_siswa.nisn,
       m_siswa.nama_siswa,
       pelanggaran_siswa.tgl_kejadian,
-      pelanggaran_item.nama_pelanggaran,
       pelanggaran_item.poin,
       pelanggaran_jenis.jenis,
-      pelanggaran_siswa.keterangan,
       pelanggaran_siswa.status_tindak_lanjut,
-      pelanggaran_siswa.bukti_pelanggaran
+      pelanggaran_siswa.teruskan_ke,
+      pelanggaran_siswa.keterangan,
+      pelanggaran_siswa.keterangan_final,
       ')
       ->join('m_siswa_kelas','pelanggaran_siswa.siswa_kelas_id=m_siswa_kelas.id')
       ->join('m_siswa','m_siswa_kelas.siswa_id=m_siswa.id')
@@ -142,9 +179,7 @@ class PelanggaranSiswaModel extends Model
       ->get()
       ->getResultArray();
    }
-   
-   // Pelanggran by tanggal 
-   public function ByTanggal($tanggal)
+   public function InfoPelanggaran($id)
    {
       return $this->db->table('pelanggaran_siswa')
       ->select('
@@ -153,19 +188,82 @@ class PelanggaranSiswaModel extends Model
       m_siswa.nisn,
       m_siswa.nama_siswa,
       pelanggaran_siswa.tgl_kejadian,
+      pelanggaran_siswa.tgl_penyelesaian,
+      pelanggaran_siswa.lampiran,
       pelanggaran_item.nama_pelanggaran,
       pelanggaran_item.poin,
       pelanggaran_jenis.jenis,
       pelanggaran_siswa.keterangan,
       pelanggaran_siswa.status_tindak_lanjut,
-      pelanggaran_siswa.bukti_pelanggaran
       ')
       ->join('m_siswa_kelas','pelanggaran_siswa.siswa_kelas_id=m_siswa_kelas.id')
       ->join('m_siswa','m_siswa_kelas.siswa_id=m_siswa.id')
       ->join('pelanggaran_item','pelanggaran_siswa.pelanggaran_id=pelanggaran_item.id')
       ->join('pelanggaran_jenis','pelanggaran_item.jenis_id=pelanggaran_jenis.id')
       ->join('m_guru','pelanggaran_siswa.user_created_id=m_guru.id')
-      ->where('pelanggaran_siswa.tgl_kejadian', $tanggal)
+      ->where('pelanggaran_siswa.id', $id)
+      ->get()
+      ->getRow();
+   }
+   
+   // Pelanggran by tanggal 
+   public function ByTanggal($start=null,$end=null)
+   {
+      return $this->db->table('pelanggaran_siswa')
+      ->select('
+      pelanggaran_siswa.id,
+      pelanggaran_siswa.siswa_kelas_id,
+      pelanggaran_siswa.tgl_kejadian,
+      m_siswa.nisn,
+      m_siswa.nama_siswa,
+      pelanggaran_item.nama_pelanggaran,
+      pelanggaran_item.poin,
+      pelanggaran_jenis.jenis,
+      pelanggaran_siswa.keterangan,
+      pelanggaran_siswa.status_tindak_lanjut,
+      pelanggaran_siswa.keterangan_final,
+      pelanggaran_siswa.teruskan_ke,
+      pelanggaran_siswa.lampiran,
+      m_guru.nm_guru')
+      ->join('m_siswa_kelas','pelanggaran_siswa.siswa_kelas_id=m_siswa_kelas.id')
+      ->join('m_siswa','m_siswa_kelas.siswa_id=m_siswa.id')
+      ->join('pelanggaran_item','pelanggaran_siswa.pelanggaran_id=pelanggaran_item.id')
+      ->join('pelanggaran_jenis','pelanggaran_item.jenis_id=pelanggaran_jenis.id')
+      ->join('m_guru','pelanggaran_siswa.user_created_id=m_guru.id')
+      ->where('pelanggaran_siswa.periode_langgar_id', PeriodeAktif()->id)
+      // ->where('pelanggaran_siswa.semester_langgar_id', $semester)
+      // ->where('m_siswa_kelas.rombel_id', $rombel)
+      ->where('pelanggaran_siswa.tgl_kejadian >=', $start)
+      ->where('pelanggaran_siswa.tgl_kejadian <=', $end)
+     //  ->orderBy('pelanggaran_siswa.siswa_kelas_id', 'asc')
+      ->orderBy('pelanggaran_siswa.tgl_kejadian', 'asc')
+      ->get()
+      ->getResultArray();
+   }
+
+   public function NotifList($id)
+   {
+      return $this->db->table('pelanggaran_siswa')
+      ->select('
+      pelanggaran_siswa.id,
+      m_guru.nm_guru,
+      m_siswa.nisn,
+      m_siswa.nama_siswa,
+      pelanggaran_siswa.tgl_kejadian,
+      pelanggaran_siswa.tgl_penyelesaian,
+      pelanggaran_siswa.lampiran,
+      pelanggaran_item.nama_pelanggaran,
+      pelanggaran_item.poin,
+      pelanggaran_jenis.jenis,
+      pelanggaran_siswa.keterangan,
+      pelanggaran_siswa.status_tindak_lanjut,
+      ')
+      ->join('m_siswa_kelas','pelanggaran_siswa.siswa_kelas_id=m_siswa_kelas.id')
+      ->join('m_siswa','m_siswa_kelas.siswa_id=m_siswa.id')
+      ->join('pelanggaran_item','pelanggaran_siswa.pelanggaran_id=pelanggaran_item.id')
+      ->join('pelanggaran_jenis','pelanggaran_item.jenis_id=pelanggaran_jenis.id')
+      ->join('m_guru','pelanggaran_siswa.user_created_id=m_guru.id')
+      ->where('pelanggaran_siswa.teruskan_ke', $id)
       ->get()
       ->getResultArray();
    }

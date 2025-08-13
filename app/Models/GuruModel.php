@@ -11,8 +11,8 @@ class GuruModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
-    protected $protectFields    = true;
-    protected $allowedFields    = ['nuptk','password','nm_guru','type','is_active'];
+    protected $protectFields    = false;
+    protected $allowedFields    = [];
 
     public function GuruCode($kode)
     {
@@ -22,7 +22,7 @@ class GuruModel extends Model
 
     public function HistoryWalas($guru_id)
     {
-        return $this->db->table('tm_kelas_rombel_walas')
+        return $this->db->table('tm_kelas_rombel')
         ->select('
         sekolah.nm_sekolah,
         sekolah.kepsek,
@@ -30,22 +30,17 @@ class GuruModel extends Model
         periode.status_periode,
         tm_kelas_level.level_kelas,
         tm_kelas_rombel.rombel,
-        tm_kelas_rombel_walas.id as kelas_aktif_id,
-        tm_kelas_rombel_walas.status_walas
+        tm_kelas_rombel.id as kelas_aktif_id,
         ')
-        ->join('tm_kelas_rombel','tm_kelas_rombel_walas.rombel_id=tm_kelas_rombel.id','right')
-        ->join('periode','tm_kelas_rombel_walas.periode_id=periode.id','right')
+        ->join('periode','tm_kelas_rombel.periode_id=periode.id','right')
         ->join('tm_kelas_level','tm_kelas_rombel.level_kelas_id=tm_kelas_level.id', 'right')
         ->join('sekolah','tm_kelas_level.sekolah_id=sekolah.id','right')
-        ->where('tm_kelas_rombel_walas.guru_id', $guru_id)->get()->getResultArray();
+        ->where('tm_kelas_rombel.guru_id', $guru_id)->get()->getResultArray();
     }
 
-    public function RombelWalasAktif($guru_id=null)
+    public function RombelWalasAktif($guru_id)
     {
-        if ($guru_id==null) {
-            return 0;
-        }
-        return $this->db->table('tm_kelas_rombel_walas')
+        return $this->db->table('tm_kelas_rombel')
         ->select('
         sekolah.nm_sekolah,
         sekolah.kepsek,
@@ -53,15 +48,13 @@ class GuruModel extends Model
         periode.status_periode,
         tm_kelas_level.level_kelas,
         tm_kelas_rombel.rombel,
-        tm_kelas_rombel_walas.id as kelas_aktif_id,
-        tm_kelas_rombel_walas.status_walas
+        tm_kelas_rombel.id as kelas_aktif_id
         ')
-        ->join('tm_kelas_rombel','tm_kelas_rombel_walas.rombel_id=tm_kelas_rombel.id','right')
-        ->join('periode','tm_kelas_rombel_walas.periode_id=periode.id','right')
+        ->join('periode','tm_kelas_rombel.periode_id=periode.id','right')
         ->join('tm_kelas_level','tm_kelas_rombel.level_kelas_id=tm_kelas_level.id', 'right')
         ->join('sekolah','tm_kelas_level.sekolah_id=sekolah.id','right')
-        ->where('tm_kelas_rombel_walas.guru_id', $guru_id)
-        ->where('tm_kelas_rombel_walas.status_walas', 1)
+        ->where('tm_kelas_rombel.guru_id', $guru_id)
+        // ->where('tm_kelas_rombel.status_walas', 1)
         ->get()->getRowArray();
     }
 

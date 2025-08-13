@@ -10,7 +10,7 @@ class Auth extends BaseController
 {
     public function index()
     {
-        // var_dump(Hash::make('admin'));
+        // var_dump(Hash::make('Admin@UPTIK'));
         return view('SuperAdmin/Login');
     }
 

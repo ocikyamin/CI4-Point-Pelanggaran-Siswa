@@ -1,0 +1,145 @@
+CREATE TABLE `absensi` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `siswa_id` int DEFAULT NULL,
+  `tanggal` date DEFAULT NULL,
+  `status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `agama` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `nama_agama` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `bulan` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `nama_bulan` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `guru` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `nama_guru` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nip` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `agama_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `guru_kelas` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `guru_id` int DEFAULT NULL,
+  `kelas_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `guru_mapel` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `guru_id` int DEFAULT NULL,
+  `mapel_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `kelas` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `nama_kelas` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rombel_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `kelas_mengajar` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `guru_id` int DEFAULT NULL,
+  `semester_id` int DEFAULT NULL,
+  `mapel_id` int DEFAULT NULL,
+  `rombel_walas_id` int DEFAULT NULL,
+  `deskripsi` text COLLATE utf8mb4_unicode_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `kelas_presensi` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `tanggal` date DEFAULT NULL,
+  `mapel_mengajar_id` int NOT NULL,
+  `siswa_kelas_id` int NOT NULL,
+  `jam_ke` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pertemuan_ke` int DEFAULT NULL,
+  `kehadiran` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `kelas_siswa` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `kelas_id` int DEFAULT NULL,
+  `siswa_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `kelas_walas` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `guru_id` int DEFAULT NULL,
+  `rombel_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `mapel` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `nama_mapel` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `pengguna` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `role` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `pengumuman` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `judul` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `isi` text COLLATE utf8mb4_unicode_ci,
+  `tanggal` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `rombel` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `nama_rombel` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `rombel_siswa` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `rombel_id` int DEFAULT NULL,
+  `siswa_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `semester` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `nama_semester` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `siswa` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `nama_siswa` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nis` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `agama_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `tahun_ajaran` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `nama_tahun_ajaran` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `wali_siswa` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `siswa_id` int DEFAULT NULL,
+  `nama_wali` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

@@ -11,6 +11,8 @@
         <link rel="stylesheet" type="text/css" href="<?=base_url('public/')?>assets/libs/sweetalert2/sweetalert2.min.css">
         <script type="text/javascript" src="<?=base_url('public/')?>assets/libs/toastify-js/toastify.js"></script>
         <script type="text/javascript" src="<?=base_url('public/')?>assets/libs/sweetalert2/sweetalert2.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="<?=base_url('public/')?>assets/libs/DataTables/datatables.min.css">
+        <script type="text/javascript" src="<?=base_url('public/')?>assets/libs/DataTables/datatables.min.js"></script>
 <style>
 .round-16 {
 width: 16px;
@@ -66,16 +68,26 @@ font-size: 7px;
                 <span class="hide-menu">Users</span>
               </a>
             </li>
-            <li class="sidebar-item">
+              <li class="sidebar-item">
+              <a class="sidebar-link" href="<?=base_url('admin/setting')?>" aria-expanded="false">
+                <span>
+                <i class="ti ti-settings"></i>
+                </span>
+                <span class="hide-menu">Pengaturan</span>
+              </a>
+            </li>
+            
+            <!-- <li class="sidebar-item">
                 <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
                   <span class="d-flex">
                   <i class="ti ti-settings"></i>
                   </span>
                   <span class="hide-menu">Pengaturan</span>
+                  <span class="ti ti-arrow-circle-down"></span>
                 </a>
                 <ul aria-expanded="false" class="collapse first-level">
                   <li class="sidebar-item">
-                    <a href="#<?=base_url('admin/setting/periode')?>" class="sidebar-link">
+                    <a href="<?=base_url('admin/setting/periode')?>" class="sidebar-link">
                       <div class="round-16 d-flex align-items-center justify-content-center">
                         <i class="ti ti-circle"></i>
                       </div>
@@ -83,7 +95,7 @@ font-size: 7px;
                     </a>
                   </li>
                   <li class="sidebar-item">
-                    <a href="#<?=base_url('admin/setting/sekolah')?>" class="sidebar-link">
+                    <a href="<?=base_url('admin/setting/sekolah')?>" class="sidebar-link">
                       <div class="round-16 d-flex align-items-center justify-content-center">
                         <i class="ti ti-circle"></i>
                       </div>
@@ -91,7 +103,7 @@ font-size: 7px;
                     </a>
                   </li>
                   <li class="sidebar-item">
-                    <a href="#<?=base_url('admin/setting/kelas')?>" class="sidebar-link">
+                    <a href="<?=base_url('admin/setting/kelas')?>" class="sidebar-link">
                       <div class="round-16 d-flex align-items-center justify-content-center">
                         <i class="ti ti-circle"></i>
                       </div>
@@ -99,7 +111,7 @@ font-size: 7px;
                     </a>
                   </li>
                   <li class="sidebar-item">
-                    <a href="#<?=base_url('admin/setting/langgar')?>" class="sidebar-link">
+                    <a href="<?=base_url('admin/setting/langgar')?>" class="sidebar-link">
                       <div class="round-16 d-flex align-items-center justify-content-center">
                         <i class="ti ti-circle"></i>
                       </div>
@@ -108,8 +120,8 @@ font-size: 7px;
                   </li>
             
                 </ul>
-              </li>
-            <li class="sidebar-item">
+              </li> -->
+            <!-- <li class="sidebar-item">
                 <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
                   <span class="d-flex">
                   <i class="ti ti-users"></i>
@@ -130,7 +142,16 @@ font-size: 7px;
                   <?php endforeach; ?>
             
                 </ul>
-              </li>
+              </li> -->
+            
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="<?=base_url('admin/student')?>" aria-expanded="false">
+                <span>
+                <i class="ti ti-users"></i>
+                </span>
+                <span class="hide-menu">Siswa</span>
+              </a>
+            </li>
             
             <li class="sidebar-item">
               <a class="sidebar-link" href="<?=base_url('admin/walas')?>" aria-expanded="false">
@@ -217,7 +238,12 @@ font-size: 7px;
           </ul>
           <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-              <a href="#" class="btn btn-dark"><i class="ti ti-calendar-event"></i> <?=PeriodeAktif()->nm_periode?></a>
+              <a href="#" class="btn btn-dark"><i class="ti ti-calendar-event"></i>
+              <?php
+              if (PeriodeAktif()) {
+                echo PeriodeAktif()->nm_periode;
+              }
+              ?></a>
               <li class="nav-item dropdown">
                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
                   aria-expanded="false">
@@ -249,8 +275,6 @@ font-size: 7px;
     
       <!--  Header End -->
       <div class="container-fluid">
-
-
       <?= $this->renderSection('content') ?>
       </div>
     </div>

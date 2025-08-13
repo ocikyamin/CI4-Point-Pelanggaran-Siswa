@@ -11,47 +11,99 @@ Walas
 </ol>
 </nav>
 
-<div class="row">
-    <!-- col-lg-3  -->
+    <div class="row">
+    <div class="col-lg-6">
+    <div class="input-group input-group-sm mb-3">
+
+    <span class="input-group-text" id="basic-addon1"><i class="ti ti-filter"></i></span>
+    <select class="form-select" name="sekolah" id="sekolah">
+    <option value="">Sekolah / Madrasah</option>
     <?php
-    foreach ($level as $l):?>
-    <div class="col-lg-3">
-        <div class="card shadow-sm">
-            <div class="card-header p-1 <?=$l['sekolah_id']==1 ? 'bg-info':'bg-success'?> text-white">
-           <i class="ti ti-school text-white"></i> <?=strtoupper($l['level_kelas'])?>
-            </div>
-            <div class="card-body p-2">
-            <?php
-                if (empty(RombelByLevel($l['id']))) {
-              ?>
-              <div class="text-danger text-center">
-                Belum ada Guru Kelas
-              </div>
-              <?php
-                }else{
-                    ?>
-                    <?php
-                    foreach (RombelByLevel($l['id']) as $r) {
-                    ?>
-                    <div class="d-grid text-left">
-                    <a class="btn btn-light btn-sm mb-1" href="<?=base_url('admin/walas/detail/'.$r['id'])?>" style="text-align:left"> <?=$r['rombel']?> (<?=$r['nm_guru']?>) </a>
-                    </div>
-                    <?php
-                    }
-
-                    ?>
-
-                    <?php
-                    
-                }
-
-                ?>
-
-          
-            </div>
-        </div>
+    if (ListOfSekolah()) {
+    foreach (ListOfSekolah() as $p) {
+    ?>
+    <option value="<?=$p['id']?>"><?=$p['nm_sekolah']?></option>
+    <?php
+    }
+    }
+    ?>
+    </select>
+    <select name="periode" class="form-select" id="periode">
+    <option value="">Tahun Pelajaran</option>
+    <?php
+    if (ListOfPeriode()) {
+    foreach (ListOfPeriode() as $p) {
+    ?>
+    <option value="<?=$p['id']?>"><?=$p['nm_periode']?> <?=$p['status_periode']==1 ?'(Aktif)':null ?></option>
+    <?php
+    }
+    }
+    ?>
+    </select>
+    <button type="button" class="btn btn-dark" id="btn-cari"><i class="ti ti-search"></i> Tampilkan</button>
     </div>
-    <?php endforeach ;?>
-    <!-- end col-lg-3  -->
+    </div>
+
+
 </div>
+
+<div class="row" id="view-walas"></div>
+
+<script>
+    $(document).ready(function () {
+        $('#btn-cari').click(function (e) { 
+        var Sekolah = $('#sekolah').val();
+        var Periode = $('#periode').val();
+        e.preventDefault();
+        // alert('okk')
+        if (Sekolah =="" || Periode=="") {
+            Toastify({
+            text: "Sekolah / Periode Belum Dipilih",
+            className: "warning"
+            }).showToast();
+        }else{
+            WalasPeriode(Periode,Sekolah) 
+        }
+    });
+    });
+    // $('#cari-walas').submit(function (e) { 
+    //     e.preventDefault();
+
+    //     $.ajax({
+    //         type: "post",
+    //         url: "<?=base_url('admin/walas/periode')?>",
+    //         data: $(this).serialize(),
+    //         dataType: "json",
+    //         success: function (response) {
+    //             $('#view-walas').html(response.walas)
+    //         }
+    //     });
+    // });
+
+    // $('#periode').change(function (e) { 
+    //     var Sekolah = $('#sekolah').val();
+    //     e.preventDefault();
+    //     // alert('okk')
+    //     if ($(this).val() !="" && Sekolah!="") {
+    //         WalasPeriode($(this).val(),Sekolah) 
+    //     }else{
+    //         alert('pilih sekolah / periode')
+    //     }
+    // });
+
+    function WalasPeriode(id,sekolah) {
+        $.ajax({
+            type: "post",
+            url: "<?=base_url('admin/walas/periode')?>",
+            data: {
+                periode : id,
+                sekolah : sekolah,
+            },
+            dataType: "json",
+            success: function (response) {
+                $('#view-walas').html(response.walas)
+            }
+        });
+      }
+</script>
 <?= $this->endSection() ?>

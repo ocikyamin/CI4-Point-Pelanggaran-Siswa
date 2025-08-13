@@ -23,11 +23,16 @@ class GuruFilter implements FilterInterface
      *
      * @return mixed
      */
+    // protected $helpers = ['guru'];
     public function before(RequestInterface $request, $arguments = null)
     {
-        if (!session('teach_sess')) {
+            if (!session('teach_sess')) {
             return redirect()->to(base_url('auth'));
             }
+
+        // if (PeriodeAktif()) {
+        //     return redirect()->to(base_url('auth'));
+        // }
     }
 
     /**

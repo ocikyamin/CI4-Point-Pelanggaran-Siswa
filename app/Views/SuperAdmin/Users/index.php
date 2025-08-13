@@ -6,7 +6,7 @@
 <a href="#" class="text-info d-flex align-items-center"><i class="ti ti-layout-dashboard fs-4"></i></a>
 </li>
 <li class="breadcrumb-item active text-info font-medium" aria-current="page">
-Users
+User Management
 </li>
 </ol>
 </nav>
@@ -15,14 +15,9 @@ Users
 start Custom Icon Tab
 ---------------- -->
 <div class="card">
-<div class="card-body">
-<div class="mb-2">
-<h5 class="mb-0">User Management</h5>
-</div>
-
-<div>
-<!-- Nav tabs -->
-<ul class="nav nav-tabs" role="tablist">
+    <div class="card-header">
+    <!-- <h5 class="mb-0">User Management</h5> -->
+    <ul class="nav nav-tabs" role="tablist">
 <li class="nav-item">
 <a
 class="nav-link d-flex active"
@@ -41,8 +36,7 @@ role="tab"
 class="nav-link d-flex"
 data-bs-toggle="tab"
 href="#eksekutif"
-role="tab"
->
+role="tab">
 <span
 ><i class="ti ti-user fs-4"></i>
 </span>
@@ -51,16 +45,23 @@ role="tab"
 </li>
 
 </ul>
+    </div>
+<div class="card-body">
+
+<!-- Nav tabs -->
+
 <!-- Tab panes -->
 <div class="tab-content">
 <div class="tab-pane active" id="gurus" role="tabpanel">
-<div class="p-3">
-<div class="alert alert-info">
-Pengaturan Akun Guru
+
+<div class="alert mb-3 py-2 shadow mt-3">
+    <button onclick="AddGuru()" class="btn btn-dark btn-sm mr-5"><i class="ti ti-plus"></i> New</button>
+    <button onclick="ImportGuru()" class="btn btn-success btn-sm mr-5"><i class="ti ti-table-import"></i> Import</button>
+<b><i class="ti ti-settings"></i></b> Akun Guru / Walas
 </div>
 <div id="guru-list"></div>
 </div>
-</div>
+
 <div class="tab-pane p-3" id="eksekutif" role="tabpanel">
 
 <div class="alert alert-info">
@@ -76,11 +77,39 @@ Pengaturan Akun
 <!-- ---------------------
 end Custom Icon Tab
 ---------------- -->
-
+<div class="view-modal"></div>
 
 
 
 <script>
+
+function AddGuru() {
+
+$.ajax({
+    url: "<?=base_url('admin/users/guru/add')?>",
+    data: "data",
+    dataType: "json",
+    success: function (response) {
+        $('.view-modal').html(response.view).show()
+        $('#guru-modal').modal('show')
+    }
+});
+}
+function ImportGuru() {
+
+$.ajax({
+    url: "<?=base_url('admin/users/guru/import')?>",
+    data: "data",
+    dataType: "json",
+    success: function (response) {
+        $('.view-modal').html(response.view).show()
+        $('#guru-modal').modal('show')
+    }
+});
+}
+
+
+
     function GuruList() {
     $.ajax({
         url: "<?=base_url('admin/users/guru')?>",

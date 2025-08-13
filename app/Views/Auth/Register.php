@@ -38,7 +38,7 @@
             <div class="card mb-0">
               <div class="card-body">
                 <a href="#" class="text-nowrap logo-img text-center d-block py-3 w-100">
-                  <img src="<?=base_url('public/')?>assets/images/logos/logo.png" width="180" alt="">
+                  <img src="<?=base_url('public/')?>assets/images/logos/brand.png" width="200" alt="">
                 </a>
                 <p class="text-center">Your Social Campaigns</p>
                 <form id="form-register" method="post">

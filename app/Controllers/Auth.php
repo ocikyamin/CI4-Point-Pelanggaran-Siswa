@@ -23,14 +23,14 @@ class Auth extends BaseController
             'label'  => 'NUPTK',
             'rules'  => 'required',
             'errors' => [
-            'required' => '{field} Tidak Boleh Kosong'
+            'required' => '{field} Belum Diisi.'
             ]
             ],
             'user_pass' => [
             'label'  => 'Password',
             'rules'  => 'required',
             'errors' => [
-            'required' => '{field} Tidak Boleh Kosong'
+            'required' => '{field} Belum Diisi.'
             ]
             ]
             ]

@@ -30,10 +30,26 @@ public function KelasLevel()
 public function KelasRombel()
 {
    if ($this->request->isAJAX()) {
+    $periode_id = $this->request->getVar('periode_id');
     $level_id = $this->request->getVar('level_id');
     $mKelasRombel = new KelasRombelModel;
     $option = "";
-    foreach ($mKelasRombel->RombelByLevelId($level_id) as $row) {
+    foreach ($mKelasRombel->RombelByLevelId($level_id, $periode_id) as $row) {
+       $option .= '<option value="'.$row['id'].'">'.$row['rombel'].'</option>';
+
+    }
+    $msg = ['kelas_rombel'=>  $option];
+    echo json_encode($msg);
+   }
+}
+public function RombelBySekolahPeriode()
+{
+   if ($this->request->isAJAX()) {
+    $sekolah_id = $this->request->getVar('sekolah_id');
+    $periode_id = $this->request->getVar('periode_id');
+    $mKelasRombel = new KelasRombelModel;
+    $option = "";
+    foreach ($mKelasRombel->RombelBySekolahPeriodeId($sekolah_id, $periode_id) as $row) {
        $option .= '<option value="'.$row['id'].'">'.$row['rombel'].'</option>';
 
     }

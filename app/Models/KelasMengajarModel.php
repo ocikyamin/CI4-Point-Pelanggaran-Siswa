@@ -20,18 +20,20 @@ class KelasMengajarModel extends Model
         ->select('
             kelas_mengajar.id,
             kelas_mengajar.rombel_walas_id,
-            
+            kelas_mengajar.jam_ke,
+            kelas_mengajar.waktu,
+            periode.nm_periode,
             semester.semester,
             mapel.mapel,
             tm_kelas_rombel.rombel,
             m_guru.nm_guru
             ')
             ->join('m_guru','kelas_mengajar.guru_id=m_guru.id')
+            ->join('periode','kelas_mengajar.periode_id=periode.id')
             ->join('semester','kelas_mengajar.semester_id=semester.id')
             ->join('mapel','kelas_mengajar.mapel_id=mapel.id')
 
-            ->join('tm_kelas_rombel_walas','kelas_mengajar.rombel_walas_id=tm_kelas_rombel_walas.id')
-            ->join('tm_kelas_rombel','tm_kelas_rombel_walas.rombel_id=tm_kelas_rombel.id')
+            ->join('tm_kelas_rombel','kelas_mengajar.rombel_walas_id=tm_kelas_rombel.id')
             ->where('kelas_mengajar.guru_id', $guru_id)
             ->get()
             ->getResultArray();
@@ -42,7 +44,7 @@ class KelasMengajarModel extends Model
         return $this->db->table('kelas_mengajar')
         ->select('
         kelas_mengajar.id,
-        tm_kelas_rombel_walas.id as rombel_walas_id,
+        tm_kelas_rombel.id as rombel_walas_id,
         mapel.mapel,
         periode.nm_periode,
         semester.semester,
@@ -56,11 +58,10 @@ class KelasMengajarModel extends Model
         ->join('semester','kelas_mengajar.semester_id=semester.id','right')
         ->join('mapel','kelas_mengajar.mapel_id=mapel.id','right')
 
-        ->join('tm_kelas_rombel_walas','kelas_mengajar.rombel_walas_id=tm_kelas_rombel_walas.id','right')
+        ->join('tm_kelas_rombel','kelas_mengajar.rombel_walas_id=tm_kelas_rombel.id','right')
 
-        ->join('periode','tm_kelas_rombel_walas.periode_id=periode.id','right')
-        // ->join('m_guru ','tm_kelas_rombel_walas.guru_id=m_guru.id','right')
-        ->join('tm_kelas_rombel','tm_kelas_rombel_walas.rombel_id=tm_kelas_rombel.id','right')
+        ->join('periode','tm_kelas_rombel.periode_id=periode.id','right')
+
         ->join('tm_kelas_level','tm_kelas_rombel.level_kelas_id=tm_kelas_level.id','right')
         ->join('sekolah','tm_kelas_level.sekolah_id=sekolah.id','right')
         ->where('kelas_mengajar.id', $id)

@@ -4,6 +4,24 @@ function session_con()
 	return $db= \Config\Database::connect(); 
 }
 
+function ListOfPeriode()
+{
+    return $builder = session_con()
+    ->table('periode')
+    ->get()
+    ->getResultArray();
+
+
+}
+function ListOfSemester()
+{
+    return $builder = session_con()
+    ->table('semester')
+    ->get()
+    ->getResultArray();
+
+
+}
 function PeriodeAktif()
 {
     return $builder = session_con()
@@ -13,6 +31,21 @@ function PeriodeAktif()
     ->getRow();
 
 
+}
+function SemesterAktif()
+{
+   return $builder = session_con()
+    ->table('semester')
+    ->where('status',1)
+    ->get()
+    ->getRow();
+}
+function Jabatan()
+{
+   return $builder = session_con()
+    ->table('m_jabatan')
+    ->get()
+    ->getResultArray();
 }
  function TeacherLogin()
 {
@@ -27,14 +60,14 @@ function PeriodeAktif()
 function RombelByLevel($level_kelas_id)
 {
    return $builder = session_con()
-   ->table('tm_kelas_rombel_walas')
-   ->select('tm_kelas_rombel_walas.id,
+   ->table('tm_kelas_rombel')
+   ->select('tm_kelas_rombel.id,
    tm_kelas_rombel.rombel,
    m_guru.nm_guru
    ')
-   ->join('tm_kelas_rombel','tm_kelas_rombel_walas.rombel_id=tm_kelas_rombel.id')
-   ->join('m_guru','tm_kelas_rombel_walas.guru_id=m_guru.id')
-   ->join('periode','tm_kelas_rombel_walas.periode_id=periode.id')
+//    ->join('tm_kelas_rombel','tm_kelas_rombel.rombel_id=tm_kelas_rombel.id')
+   ->join('m_guru','tm_kelas_rombel.guru_id=m_guru.id')
+   ->join('periode','tm_kelas_rombel.periode_id=periode.id')
    ->where('periode.status_periode', 1)
    ->where('tm_kelas_rombel.level_kelas_id', $level_kelas_id)
    ->orderBy('tm_kelas_rombel.id', 'asc')

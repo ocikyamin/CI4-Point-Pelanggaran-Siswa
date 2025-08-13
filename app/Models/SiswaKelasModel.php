@@ -26,11 +26,12 @@ class SiswaKelasModel extends Model
         m_siswa.nama_siswa,
         m_siswa.jk,
         m_siswa.hp_ortu,
+        m_siswa.foto,
         tm_kelas_rombel.rombel
         ')
-        ->join('tm_kelas_rombel_walas','m_siswa_kelas.rombel_walas_id=tm_kelas_rombel_walas.id','right')
+        ->join('tm_kelas_rombel','m_siswa_kelas.rombel_id=tm_kelas_rombel.id','right')
 
-        ->join('tm_kelas_rombel','tm_kelas_rombel_walas.rombel_id=tm_kelas_rombel.id')
+
 
         ->join('m_siswa','m_siswa_kelas.siswa_id=m_siswa.id','right')
 
@@ -38,5 +39,28 @@ class SiswaKelasModel extends Model
 
         ->get()->getRow();
     }
+
+    
+    public function SiswaByRombel($rombel_id)
+    {
+        return $this->db->table('m_siswa_kelas')
+        ->select('
+        m_siswa_kelas.id,
+        m_siswa.id as siswa_id,
+        m_siswa.nisn,
+        m_siswa.nama_siswa,
+        m_siswa.jk,
+        m_siswa.hp_ortu,
+        tm_kelas_rombel.rombel
+        ')
+        ->join('tm_kelas_rombel','m_siswa_kelas.rombel_id=tm_kelas_rombel.id')
+
+        ->join('m_siswa','m_siswa_kelas.siswa_id=m_siswa.id')
+
+        ->where('m_siswa_kelas.rombel_id', $rombel_id)
+
+        ->get()->getResultArray();
+    }
+
 
 }

@@ -58,7 +58,7 @@ Telp (0752) 28115, Fax. (0752) 426758, email: <a href="#">mticanduang@gmail.com<
     </tr>
     <tr class="bb">
  
-    <td>TP</td>
+    <td>Tahun Pelajaran</td>
     <td>:</td>
     <td><?=$kelas->nm_periode?></td>
     <td>Semester</td>
@@ -69,17 +69,17 @@ Telp (0752) 28115, Fax. (0752) 426758, email: <a href="#">mticanduang@gmail.com<
     <tr class="bb">
 <td>Guru</td>
 <td>:</td>
-<td colspan="3"><?=$kelas->nm_guru?></td>
+<td colspan="3"><?=$jadwal->nm_guru?></td>
 </tr>
 <tr class="bb">
 <td>Bidang Studi</td>
 <td>:</td>
-<td colspan="3"><?=$kelas->mapel?></td>
+<td colspan="3"><?=$jadwal->mapel?></td>
 </tr>
 <tr class="bb">
 <td>Wali Kelas</td>
 <td>:</td>
-<td colspan="3"><?=$walas->nm_guru?></td>
+<td colspan="3"><?=$kelas->walas?></td>
 </tr>
 
 </table> 
@@ -125,61 +125,96 @@ Telp (0752) 28115, Fax. (0752) 426758, email: <a href="#">mticanduang@gmail.com<
 </table> 
 <hr>
         <div class="table">
-    <table border="1" style="font-size:9px;width: 100%;border-collapse: collapse;">
+            <!-- Daftar Hadir  -->
+            <?php
+$jml = count($pertemuan);
+// var_dump($jml);
+?>
+
+<table border="1" style="font-size:9px;width: 100%;border-collapse: collapse;">
 <thead>
 <tr>
 <th rowspan="2" width="1" class="text-center">NO</th>
-<th rowspan="2" width="20%">NAMA LENGKAP SISWA</th>
+<th rowspan="2">NAMA LENGKAP SISWA</th>
 <th colspan="<?=$jml?>" class="text-center">Pertemuan Ke- dan Tanggal Pertemuan</th>
 <th rowspan="1" colspan="6" class="text-center">JUMLAH</th>
 </tr>
 <tr>
 <?php
-foreach ($tanggal_pertemuan as $t) {?>
-<td class="text-center bold"><?=$t['pertemuan_ke']?>
-<div><small><?=date('d/m/y', strtotime($t['tanggal']))?></small></div>
+foreach ($pertemuan as $p) {?>
+<td class="text-center bg-light">
+<b>
+<?=$p['pertemuan']?>
+<div><small><?=date('d/m/Y', strtotime($p['tgl_pertemuan']))?></small></div>
+</b>
 </td>
 <?php } ?>
-<td class="text-center bold">H</td>
-<td class="text-center bold">S</td>
-<td class="text-center bold">I</td>
-<td class="text-center bold">T</td>
-<td class="text-center bold">A</td>
-<td class="text-center bold">C</td>
+
+<td class="text-center">H</td>
+<td class="text-center">S</td>
+<td class="text-center">I</td>
+<td class="text-center">T</td>
+<td class="text-center">A</td>
+<td class="text-center">C</td>
 </tr>
+
 </thead>
 <tbody>
 <?php
+use App\Models\Jurnal\KehadiranModel;
+$hadirM = New KehadiranModel();
 $no = 1;
 foreach ($siswa as $d) {
-    $hadir = hitungKehadiran($kelas->id, $d['id'], "H");
-    $sakit = hitungKehadiran($kelas->id, $d['id'], "S");
-    $izin = hitungKehadiran($kelas->id, $d['id'], "I");
-    $telat = hitungKehadiran($kelas->id, $d['id'], "T");
-    $absen = hitungKehadiran($kelas->id, $d['id'], "A");
-    $cabut = hitungKehadiran($kelas->id, $d['id'], "C");
-?>
-<tr>
-<td class="text-center"><?=$no++?></td>
-<td width="20%"><?=$d['nama_siswa']?></td>
-<?php
-foreach ($tanggal_pertemuan as $t) {
-$kehadiran = Kehadiran($t['tanggal'],$kelas->id,$d['id'],$t['pertemuan_ke'])==NULL ? NULL : Kehadiran($t['tanggal'],$kelas->id,$d['id'],$t['pertemuan_ke']);
+$hadir = hitungKehadiran($jadwal_id, $d['id'], "H");
+$sakit = hitungKehadiran($jadwal_id, $d['id'], "S");
+$izin = hitungKehadiran($jadwal_id, $d['id'], "I");
+$telat = hitungKehadiran($jadwal_id, $d['id'], "T");
+$absen = hitungKehadiran($jadwal_id, $d['id'], "A");
+$cabut = hitungKehadiran($jadwal_id, $d['id'], "C");
+
 
 ?>
-<td class="text-center"><?php if ($kehadiran==NULL) {echo "0";}else{echo $kehadiran->kehadiran;}?></td>
+<input type="hidden" name="siswa[]" value="<?=$d['id']?>">
+<tr>
+<td class="text-center"><?=$no++?></td>
+<td><?=$d['nama_siswa']?></td>
+<?php
+foreach ($pertemuan as $p) {
+    if ($pertemuan) {
+    $stt = $hadirM->select('kehadiran')
+    ->where('kelas_jurnal_id', $p['id'])
+    ->where('m_siswa_kelas_id', $d['id'])
+    ->first();
+
+
+
+
+    }else{
+    $stt = null;
+    }
+    if ($stt) {
+    $ket = $stt['kehadiran'];
+    }else{
+    $ket = null;
+    }
+    
+    ?>
+<td class="text-center"><b><?=$ket?></td>
 <?php } ?>
-<td class="text-center bold"><?=$hadir?></td>
-<td class="text-center bold"><?=$sakit?></td>
-<td class="text-center bold"><?=$izin?></td>
-<td class="text-center bold"><?=$telat?></td>
-<td class="text-center bold"><?=$absen?></td>
-<td class="text-center bold"><?=$cabut?></td>
+
+<td class="text-center"><?=$hadir?></td>
+<td class="text-center"><?=$sakit?></td>
+<td class="text-center"><?=$izin?></td>
+<td class="text-center"><?=$telat?></td>
+<td class="text-center"><?=$absen?></td>
+<td class="text-center"><?=$cabut?></td>
+
 </tr>
 <?php } ?>
 </tbody>
 </table>
 </div>
+
 </body>
 <script>
     window.print()

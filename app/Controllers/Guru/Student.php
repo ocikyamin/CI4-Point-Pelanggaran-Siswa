@@ -9,23 +9,18 @@ use App\Models\PelanggaranSiswaModel;
 
 class Student extends BaseController
 {
-    protected $helpers = ['guru','pps'];
+    protected $helpers = ['guru'];
     public function index()
     {
         $guruModel = new GuruModel;
         $pelanggranM = new PelanggaranSiswaModel;
         $rombel_walas = $guruModel->RombelWalasAktif(TeacherLogin()->id);
-    if (is_null($rombel_walas)) {
-    //    echo "null";
-    return redirect()->back();
-    }else {
         $data = [
             'title'=> 'Student List',
-            'rombel_aktif'=> $rombel_walas,
-         'siswa_melanggar' => $pelanggranM->JumlahSiswaMelanggarByKelasID($rombel_walas['kelas_aktif_id'])
+            // 'rombel_aktif'=> $rombel_walas,
+            // 'siswa_melanggar'=> $pelanggranM->JumlahSiswaMelanggarByKelasID($rombel_walas['kelas_aktif_id'])
     ];
-    return view('Guru/Student/index', $data);
-    }
+        return view('Guru/Student/index', $data);
     }
 
     public function StudentByRombel()

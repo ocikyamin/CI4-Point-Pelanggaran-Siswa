@@ -23,20 +23,11 @@
             <td><?=$s['nama_siswa']?></td>
             <td><?=$s['jk']?></td>
             <td>
-                <?php
-                $jml_point = JmlPoinSiswa($s['siswa_rombel_id']);
-              if ($jml_point->poin > 0) {
-                echo "<span class='badge bg-primary'> ".$jml_point->poin."</span> ";
-              }else{
-                echo "-";
-              }
-
-                ?>
-            <!-- -->
+            <span class="badge bg-primary">-</span>
             </td>
             <td>
             <div class="dropdown">
-            <button class="btn btn-dark btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-success btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="ti ti-list"></i>
             </button>
             <ul class="dropdown-menu">

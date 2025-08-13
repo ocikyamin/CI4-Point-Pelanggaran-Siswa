@@ -17,7 +17,7 @@
         foreach ($user as $s):?>
         <tr>
             <td><?=$i++?>.</td>
-            <td><?=$s['email']?></td>
+            <td><?=$s['user_email']?></td>
             <td><?=$s['user_fullname']?></td>
             <td>
                 nj

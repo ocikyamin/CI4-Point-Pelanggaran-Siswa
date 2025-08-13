@@ -1,18 +1,15 @@
+
 <?php
-// echo "<pre>";
-// print_r($result);
-// echo "</pre>";
-
-
 if (empty($result)) {
-   echo "<div class='alert alert-danger'>Tidak ada Hasil Ditemukan....</div>";
+   echo "<div class='alert bg-danger text-white text-center py-1'><b><i class='ti ti-info-circle text-white mr-3'></i> Oppss ! </b> Data siswa Tidak ditemukan.</div>";
 }else{
     ?>
-    <div class="table-responsive">           
-<table class="table table-sm table-striped table-bordered table-hover mt-3">
+    <div class="table-responsive mt-5">           
+<table id="tabel-siswa" class="table table-sm table-striped table-bordered table-hover mt-3">
     <thead>
     <tr>
         <th>No.</th>
+        <th>NISN</th>
         <th>Nama</th>
         <th>Kelas</th>
         <th>Walas</th>
@@ -23,13 +20,14 @@ if (empty($result)) {
     <?php
     $i=1;
     foreach ($result as $s):?>
-    <tr onclick="TambahPelanggaran(<?=$s['siswa_rombel_id']?>)">
+    <tr onclick="TambahPelanggaran(<?=$s['siswa_rombel_id']?>)" style="cursor:pointer">
     <td><?=$i++?>.</td>
+        <td><?=$s['nisn']?></td>
         <td><?=$s['nama_siswa']?></td>
         <td><?=$s['rombel']?></td>
         <td><?=$s['nm_guru']?></td>
         <td class="text-center">
-            <button class="btn btn-light btn-sm"><i class="ti ti-brand-telegram"></i> Entry Pelanggaran</button>
+            <button class="btn btn-dark btn-sm"><i class="ti ti-brand-telegram"></i> Entry Pelanggaran</button>
         </td>
     </tr>
     <?php endforeach;?>
@@ -41,6 +39,9 @@ if (empty($result)) {
     <div class="modalview"></div>
 
     <script>
+        $(document).ready(function () {
+            $('#tabel-siswa').DataTable();
+        });
         function TambahPelanggaran(siswa_kelas_id) {
            $.ajax({
             type: "post",
