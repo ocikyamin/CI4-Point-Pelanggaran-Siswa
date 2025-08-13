@@ -352,14 +352,6 @@ CREATE TABLE `users` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users`
---
-
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin','Abdul Yamin','$2y$10$5BqwGJ51j7mJQi7mSbLj3uZ9F1ubC3qWaIXbch4EQdw8gpn3z5zKC','-',1),(2,'admins','Abdul Yamin','$2y$10$ebA07pRhVzZxoLSInSBZUuHsqajL7yBlIx92ow3pe20Rvos.7GCse','-',1);
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-
---
 -- Dumping routines for database '2023_pps'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
