@@ -20,7 +20,6 @@
 <meta property="og:url" content="<?=base_url()?>">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PPS (Poin Pelanggaran Santri)">
-<meta name="google-site-verification" content="p-6SNE1SWuzmTo-vekTO4uoQOiBkZptiMd6C1EgI1Iw" />
 <!-- OG -->
 <link rel="stylesheet" href="<?=base_url('public/')?>assets/css/styles.min.css" />
 <link rel="stylesheet" type="text/css" href="<?=base_url('public/')?>assets/libs/toastify-js/toastify.min.css">
